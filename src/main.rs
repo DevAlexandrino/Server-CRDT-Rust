@@ -25,10 +25,11 @@ async fn main() {
         .allow_methods(Any);
 
     let app = Router::new()
-        .route("/ws/:doc_id",                get(ws_handler))
-        .route("/document/:doc_id",          get(handler::get_content))
-        .route("/document/:doc_id/apply",    post(handler::apply_update))
-        .route("/document/:doc_id/text",     post(handler::apply_text))
+        .route("/ws/:doc_id",               get(ws_handler))
+        .route("/document/:doc_id",         get(handler::get_content))
+        .route("/document/:doc_id/ops",     post(handler::apply_ops))    // CRDT real
+        .route("/document/:doc_id/text",    post(handler::apply_text))   // fallback
+        .route("/document/:doc_id/apply",   post(handler::apply_update)) // Y binário
         .layer(cors)
         .with_state(state);
 
